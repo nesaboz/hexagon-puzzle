@@ -4,6 +4,8 @@ import math
 from matplotlib.patches import Polygon
 from typing import List
 from copy import deepcopy
+import os
+import time
 
 # COORDINATE TRANSFORMATIONS
 
@@ -64,16 +66,16 @@ class Hex:
 
 class Piece:
     
-    def __init__(self, name, color, locations):
+    def __init__(self, name, color, locations, angles=[0, 60, 120, 180, 240, 300]):
         # for example: ('bone', 0, hexagones=[(0,0), (0,1), (1,1), (2,1), (2,2)])
         """hexagons must start with (0,0), as this will determine the position of the piece on the board
         piece will be defined on the board by i,j where 0,0 piece is, as well as angle of rotation.
-        so for example we will have solution like: [['post', location=23, angle=120], ...]
         """
         self.name = name
         self.color = color
         self._index = None
         self.locations = locations
+        self.angles = angles
         
     @property
     def index(self):
@@ -139,7 +141,7 @@ class Board:
         
         self.occupied = {point: None for point in self.points}
         
-    def draw(self):
+    def draw(self, filename=None):
         fig, ax = plt.subplots(figsize=(6, 4))
         for point in self.points:
             if self.occupied[point] is None:
@@ -152,6 +154,9 @@ class Board:
         ax.set_aspect('equal')
         ax.set_xlim(-5, 20)
         ax.set_ylim(-15, 5)
+        
+        if filename:
+            plt.savefig(os.path.join('solutions', filename))
         
     def is_valid(self, piece: Piece):
         for hexagon in piece.hexagons:
@@ -167,13 +172,26 @@ class Board:
             return False
         
         for hexagon in piece.hexagons:
-            self.occupied[hexagon.coord] = hexagon
+            self.occupied[hexagon.coord] = piece
         
         return True
     
     def remove_piece(self, piece: Piece):
         for hexagon in piece.hexagons:
             self.occupied[hexagon.coord] = None
+            
+    def __str__(self):
+        t = []
+        for point in self.points:
+            if self.occupied[point] is not None:
+                t.append(self.occupied[point].name)
+        return ", ".join(t)
+    
+    def save_to_file(self, filename):
+        with open(os.path.join('solutions', filename), "w") as f:
+            for point in self.points:
+                if self.occupied[point] is not None:
+                    f.write(f"{point[0]},{point[1]},{self.occupied[point].name}\n")
 
 
 # DRAWING
@@ -235,7 +253,7 @@ def generate_candidates(board, piece):
     candidates = []
     for x in range(board.width):
         for y in range(board.height):
-            for angle in range(0, 360, 60):
+            for angle in piece.angles:
                 candidate = translate(rotate(piece, angle), (x, y))
                 if board.is_valid(candidate):
                     candidates.append(candidate)
@@ -245,8 +263,13 @@ def generate_candidates(board, piece):
 def backtrack(board, leftover, solutions):
     # Check if the solution is complete
     if leftover == []:
-        if board not in solutions:
-            solutions.append(deepcopy(board))
+        for solution in solutions:
+            if str(board) == str(solution):
+                return
+        t = int(time.time())
+        board.save_to_file(f"{t}.txt")
+        board.draw(f"{t}.png")
+        solutions.append(deepcopy(board))
         return
     
     # let's find all the possible positions for the i-th piece, and try them all
