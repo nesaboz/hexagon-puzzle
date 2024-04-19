@@ -12,14 +12,14 @@ Considering number of possibilities is exponential, I knew it wouldn't be able t
 
 After a day of tinkering with the code, it delivered! 
 
-Behold the power of backtracking, here are some unique solutions (I reused some colors because I'm lazy, besides, I left at least some mystery in it!):
+Behold the power of backtracking, here are some unique solutions (I reused some colors because I'm lazy, besides, I left at least some mystery in it):
 
 ![solution1](solutions/1713519591_cropped.png)
 ![solution3](solutions/1713527607_cropped.png)
 ![solution4](solutions/1713531581_cropped.png)
 ![solution5](solutions/1713527109_cropped.png)
 
-It took some time when search space was bigger but still, with 6 pieces left it took only 5 minutes (which is not optimal but meh):
+Here are some timings, for example with 6 pieces left it took only 5 minutes (which is not optimal but beats my 1 solution over many days):
 ```
 2024-04-19 02:36:59,991 - INFO - For 3 leftover pieces, found 1 solutions in 1.12 seconds
 2024-04-19 02:37:21,539 - INFO - For 4 leftover pieces, found 1 solutions in 8.32 seconds
@@ -29,6 +29,6 @@ It took some time when search space was bigger but still, with 6 pieces left it 
 (don't have a plan to use CPU time nor mine anymore)
 ```
 
-The kids are 4, until they grow up to understand all of this I'll mess with them that I have puzzle-solving superpowers.
+The kids are little, until they grow up to understand all of this I'll mess with them that I have puzzle-solving superpowers.
 
 ![](sample.png)
