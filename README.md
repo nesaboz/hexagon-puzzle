@@ -1,6 +1,6 @@
 # hexagon-puzzle
 
-There is this quite hard hexagonal puzzle with 14 pieces that I've been toying around with my kids. The goal is to fit all the pieces into one big hexagon shape. Here are the pieces (I gave them silly names based on associations so I can track them):
+There is this quite hard hexagonal puzzle with 14 pieces that I've been toying around with my kids. The goal is to fit all the pieces into one big hexagon shape:
 
 ![](pieces.png)
 

@@ -210,7 +210,7 @@ def find_min_max(piece: Piece):
     return min(x_coords), max(x_coords), min(y_coords), max(y_coords)
 
 
-def draw_pieces(pieces: List[Piece], min_max=None, title=None, ax=None):
+def draw_pieces(pieces: List[Piece], min_max=None, title=None, ax=None, show_index=True):
             
     if not isinstance(pieces, list):
         raise TypeError("pieces must be a list of Piece objects")
@@ -233,7 +233,8 @@ def draw_pieces(pieces: List[Piece], min_max=None, title=None, ax=None):
         # draw hex by hex
         for h in piece.hexagons:
             ax.add_patch(h.polygon)
-            ax.text(h.xc, h.yc, h.index, ha='center', va='center', color='cyan')
+            if show_index:
+                ax.text(h.xc, h.yc, h.index, ha='center', va='center', color='cyan')
         
     # Set the aspect ratio to equal
     ax.set_aspect('equal')
