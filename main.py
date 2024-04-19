@@ -210,13 +210,14 @@ def find_min_max(piece: Piece):
     return min(x_coords), max(x_coords), min(y_coords), max(y_coords)
 
 
-def draw_pieces(pieces: List[Piece], min_max=None, title=None):
+def draw_pieces(pieces: List[Piece], min_max=None, title=None, ax=None):
             
     if not isinstance(pieces, list):
         raise TypeError("pieces must be a list of Piece objects")
     
-    # Create a figure and axes
-    fig, ax = plt.subplots()
+    if ax is None:
+        # Create a figure and axes
+        fig, ax = plt.subplots()
     xmin = math.inf
     xmax = -math.inf
     ymin = math.inf
@@ -273,7 +274,8 @@ def backtrack(board, leftover, solutions):
         return
     
     # let's find all the possible positions for the i-th piece, and try them all
-    # (TODO to add heuristics like adjacency to elements already on the board, symmetry, etc.)
+    # added symmetry heuristic, so we can reduce the number of possibilities
+    # (TODO to add adjacency to elements already on the board, etc.)
     piece = leftover.pop()
 
     # Iterate through the candidates
